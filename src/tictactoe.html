@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Tic tac toe</title>
+    <link rel="stylesheet" href="stylesheets/main.css" />
+
+    <script type="module">
+      // 0 = Blank 1 = X 2 = O
+      let board = [
+        [0, 0, 0],
+        [0, 0, 0],
+        [0, 0, 0],
+      ]
+
+      let keepPlaying = true
+
+      function updateBoard() {
+        let index = 1
+        for (let r of board) {
+          for (let c of r) {
+            let cell = "&nbsp"
+            if (c == 1) {
+              cell = "X"
+            } else if (c == 2) {
+              cell = "O"
+            }
+            document.querySelector("#cell-" + index).innerHTML = cell
+            index++
+          }
+        }
+      }
+
+      function checkBoard() {
+        if (
+          (board[0][0] == board[0][1] && board[0][0] == board[0][2] && board[0][0] != 0) ||
+          (board[0][0] == board[1][0] && board[0][0] == board[2][0] && board[0][0] != 0) ||
+          (board[0][0] == board[1][1] && board[1][0] == board[2][2] && board[0][0] != 0)
+        ) {
+          document.querySelector(".result").innerHTML = `${board[0][0] == 1 ? "X" : "O"} won!`
+          keepPlaying = false
+        }
+      }
+
+      function playTicTacToe() {
+        updateBoard()
+        let count = 0
+        document.querySelectorAll(".board .col").forEach(function (cell) {
+          cell.onclick = function (e) {
+            if (keepPlaying) {
+              let index = parseInt(cell.id.substring(5)) - 1
+              if (board[Math.floor(index / 3)][index % 3] == 0) {
+                board[Math.floor(index / 3)][index % 3] = count % 2 == 0 ? 1 : 2
+                count++
+                updateBoard()
+                checkBoard()
+              }
+            }
+          }
+        })
+      }
+
+      playTicTacToe()
+    </script>
+  </head>
+  <body>
+    <div class="container my-5 display-5 text-center">
+      <h1>Tic Tac Toe</h1>
+      <div class="row row-cols-3 board">
+        <div id="cell-1" class="col border"></div>
+        <div id="cell-2" class="col border"></div>
+        <div id="cell-3" class="col border"></div>
+        <div id="cell-4" class="col border"></div>
+        <div id="cell-5" class="col border"></div>
+        <div id="cell-6" class="col border"></div>
+        <div id="cell-7" class="col border"></div>
+        <div id="cell-8" class="col border"></div>
+        <div id="cell-9" class="col border"></div>
+      </div>
+      <div class="row row-cols-1">
+        <div class="col result"></div>
+      </div>
+    </div>
+  </body>
+</html>
